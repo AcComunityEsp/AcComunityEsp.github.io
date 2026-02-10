@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ACC | Assetto Corsa Community</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            background: #0b0b0b;
+            color: #fff;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        /* Botón menú (siempre visible) */
+        .menu-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 300;
+            background: rgba(20, 20, 20, 0.85);
+            border: 1px solid #333;
+            color: #ff8c00;
+            font-size: 28px;
+            width: 54px;
+            height: 54px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        .menu-toggle:hover {
+            background: rgba(255, 140, 0, 0.18);
+            transform: scale(1.05);
+            border-color: #ff8c00;
+        }
+        .menu-toggle.active {
+            background: rgba(255, 140, 0, 0.25);
+        }
+
+        /* SIDEBAR – oculto por defecto */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 280px;
+            background: #0f0f0f;
+            border-right: 1px solid #222;
+            padding: 90px 24px 40px;
+            overflow-y: auto;
+            z-index: 200;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 6px 0 35px rgba(0,0,0,0.7);
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        .sidebar-logo {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .sidebar-logo img {
+            width: 110px;
+            transition: transform 0.35s ease;
+        }
+        .sidebar-logo a:hover img {
+            transform: scale(1.12);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+        .sidebar-nav li {
+            margin: 10px 0;
+        }
+        .sidebar-nav a {
+            display: block;
+            color: #ccc;
+            text-decoration: none;
+            padding: 14px 20px;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.28s ease;
+        }
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: #1a1a1a;
+            color: #ff8c00;
+            transform: translateX(6px);
+        }
+
+        .sidebar-footer {
+            margin-top: 70px;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+        .sidebar-footer a {
+            color: #5865F2;
+            text-decoration: none;
+        }
+        .sidebar-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Overlay para cerrar clic fuera */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 150;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: all;
+        }
+
+        /* Contenido principal */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 5vw 80px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-title h2 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+        .section-title p {
+            color: #aaa;
+            font-size: 1.1rem;
+        }
+        .section-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,.75), rgba(0,0,0,.92)),
+                        url("imagenFONDO.png");
+            background-size: cover;
+            background-position: center;
+            margin: 0 -5vw;
+            padding: 0 5vw;
+        }
+        .hero > div {
+            max-width: 900px;
+        }
+        .hero h1 {
+            font-size: clamp(2.8rem, 6vw, 4.5rem);
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+        .highlight {
+            background: linear-gradient(10deg, #FAFAFA, #000000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .btn-primary {
+            padding: 16px 40px;
+            border-radius: 999px;
+            background: linear-gradient(10deg, #FAFAFA, #000000);
+            color: #000;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.25s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255,140,0,0.3);
+        }
+
+        .steps,
+        .inscripciones-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        .step,
+        .service {
+            text-align: center;
+            flex: 1 1 300px;
+            max-width: 400px;
+        }
+        .service img {
+            max-width: 100%;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        .service button {
+            padding: 16px 40px;
+            border-radius: 999px;
+            background: linear-gradient(10deg, #FAFAFA, #000000);
+            color: #000;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.25s;
+            border: none;
+            cursor: pointer;
+        }
+        .service button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(196, 196, 196, 0.3);
+        }
+
+        .cta {
+            text-align: center;
+            padding: 100px 0 140px;
+        }
+        .cta h2 {
+            font-size: clamp(2.5rem, 5.5vw, 4rem);
+            margin-bottom: 20px;
+        }
+        .cta p {
+            font-size: 1.3rem;
+            color: #ccc;
+            margin-bottom: 40px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #666;
+            font-size: 0.95rem;
+            border-top: 1px solid #222;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .menu-toggle {
+                top: 15px;
+                left: 15px;
+            }
+            main {
+                padding: 80px 6vw 60px;
+            }
+            .hero {
+                margin: 0 -6vw;
+                padding: 0 6vw;
+            }
+            .steps,
+            .inscripciones-container {
+                gap: 30px;
+            }
+        }
+        @media (max-width: 600px) {
+            .section-content {
+                padding: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Botón para abrir menú -->
+    <button class="menu-toggle" id="menuToggle">≡</button>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <a href="index.HTML">
+                <img src="logoACC.png" alt="Logo ACC Assetto Corsa Community">
+            </a>
+        </div>
+        
+        <ul class="sidebar-nav">
+            <li><a href="pruebas.html">Pruebas</a></li>
+            <li><a href="clasificaciones.html">Clasificaciones</a></li>
+            <li><a href="equipos.html">Equipos</a></li>
+            <li><a href="calendarios.html">Calendarios</a></li>
+
+        </ul>
+
+        <div class="sidebar-footer">
+            <p>Únete a la comunidad</p>
+            <a href="https://discord.gg/WbGt42zmNh" target="_blank">→ Discord</a>
+        </div>
+    </aside>
+
+    <main>
+        <section class="hero">
+            <div>
+                <h1>ACC <span class="highlight">Assetto Corsa Community</span></h1>
+                <p>El campeonato definitivo.</p>
+                <a href="Equipos.HTML" class="btn-primary">Equipos disponibles</a>
+            </div>
+        </section>
+
+        <section id="como">
+            <div class="section-title">
+                <h2>Campeonatos</h2>
+                <p>Campeonatos en curso actualmente</p>
+            </div>
+            <div class="section-content">
+                <div class="steps">
+                    <div class="step">
+                        <p><strong>Campeonato de Rallysprint de Tierra Virtual (CRSTV)</strong></p>
+                        <img src="LogoCRSTV.png" width="200" alt="CRSTV">
+                    </div>
+                    <div class="step">
+                        <p><strong>Campeonato de Rallysprint Virtual (CRSV)</strong></p>
+                        <img src="LogoCRSV.PNG" width="200" alt="CRSV">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="servicios">
+            <div class="section-title">
+                <h2>Inscripciones</h2>
+                <p>Revisa las inscripciones abiertas actualmente</p>
+            </div>
+            <div class="section-content">
+                <div class="inscripciones-container">
+                    <div class="service">
+                        <h3>Rallysprint de Carreño</h3>
+                        <img src="CARTELRSCARREÑO.PNG" alt="Cartel Rallysprint de Carreño">
+                        <button>INSCRIPCIÓN</button>
+                    </div>
+                    <!-- Puedes añadir más tarjetas aquí cuando haya más eventos -->
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <h2>¿Quieres ser el más rápido?</h2>
+            <p>En ACC eres bienvenido</p><br>
+            <a href="https://discord.gg/WbGt42zmNh" target="_blank" class="btn-primary">Enlace Discord</a>
+        </section>
+    </main>
+
+    <footer>
+        © 2026 ACC · Assetto Corsa Community
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        function toggleMenu() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+
+        // Cerrar al hacer clic en un enlace (opcional, útil en móvil)
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 992) {
+                    toggleMenu();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
