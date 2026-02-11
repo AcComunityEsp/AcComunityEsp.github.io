@@ -215,17 +215,17 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-            <a href="ACC.HTML">
+            <a href="./index.html">
                 <img src="logoACC.png" alt="Logo ACC Assetto Corsa Community">
             </a>
         </div>
         
         <ul class="sidebar-nav">
-            <li><a href="ACC.HTML">Inicio</a></li>
-            <li><a href="Pruebas.HTML">Pruebas</a></li>
-            <li><a href="Clasificaciones.HTML">Clasificaciones</a></li>
-            <li><a href="Calendarios.HTML" class="active">Calendario</a></li>
-            <li><a href="Equipos.HTML">Equipos</a></li>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="pruebas.html">Pruebas</a></li>
+            <li><a href="clasificaciones.html">Clasificaciones</a></li>
+            <li><a href="calendarios.html">Calendarios</a></li>
+            <li><a href="equipos.html" class="active">Equipos</a></li>
         </ul>
 
         <div class="sidebar-footer">
@@ -240,7 +240,6 @@
             <h1>EQUIPOS</h1>
         </div>
 
-        <!-- Galería (añade aquí tus imágenes reales) -->
         <section class="gallery">
             <img src="equipo1.jpg" alt="Equipo 1" class="img1">
             <img src="equipo2.jpg" alt="Equipo 2" class="img2">
@@ -248,7 +247,6 @@
             <img src="equipo4.jpg" alt="Equipo 4" class="img4">
             <img src="equipo5.jpg" alt="Equipo 5" class="img5">
             <img src="equipo6.jpg" alt="Equipo 6" class="img6">
-            <!-- Añade más <img> según necesites -->
         </section>
     </main>
 
@@ -266,7 +264,6 @@
         menuToggle.addEventListener('click', toggleMenu);
         overlay.addEventListener('click', toggleMenu);
 
-        // Cerrar al pulsar cualquier enlace del menú
         document.querySelectorAll('.sidebar-nav a').forEach(link => {
             link.addEventListener('click', () => {
                 sidebar.classList.remove('active');
