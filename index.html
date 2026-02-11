@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ACC | Assetto Corsa Community</title>
+
+    <!-- ✅ FAVICON -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -297,16 +301,16 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-logo">
-            <a href="index.HTML">
+            <a href="index.html">
                 <img src="logoACC.png" alt="Logo ACC Assetto Corsa Community">
             </a>
         </div>
         
         <ul class="sidebar-nav">
             <li><a href="pruebas.html">Pruebas</a></li>
+            <li><a href="clasificaciones.html">Clasificaciones</a></li>
             <li><a href="equipos.html">Equipos</a></li>
             <li><a href="calendarios.html">Calendarios</a></li>
-
         </ul>
 
         <div class="sidebar-footer">
@@ -320,7 +324,7 @@
             <div>
                 <h1>ACC <span class="highlight">Assetto Corsa Community</span></h1>
                 <p>El campeonato definitivo.</p>
-                <a href="Equipos.HTML" class="btn-primary">Equipos disponibles</a>
+                <a href="equipos.html" class="btn-primary">Equipos disponibles</a>
             </div>
         </section>
 
@@ -355,7 +359,6 @@
                         <img src="CARTELRSCARREÑO.PNG" alt="Cartel Rallysprint de Carreño">
                         <button>INSCRIPCIÓN</button>
                     </div>
-                    <!-- Puedes añadir más tarjetas aquí cuando haya más eventos -->
                 </div>
             </div>
         </section>
@@ -385,7 +388,6 @@
         menuToggle.addEventListener('click', toggleMenu);
         overlay.addEventListener('click', toggleMenu);
 
-        // Cerrar al hacer clic en un enlace (opcional, útil en móvil)
         document.querySelectorAll('.sidebar-nav a').forEach(link => {
             link.addEventListener('click', () => {
                 if (window.innerWidth <= 992) {
